@@ -8,7 +8,6 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
   <div class="monitor">
     <h2>Monitor de Histerese Pulmonar</h2>
     <div class="controls">
@@ -59,5 +58,6 @@
       <input type="file" id="csvInput" accept=".csv">
     </div>
   </div>  
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
