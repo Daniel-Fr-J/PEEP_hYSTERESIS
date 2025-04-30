@@ -65,4 +65,92 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     reader.readAsText(file);
   });
+
+  // ⬇️ Adicione aqui as funções e exporte ao window
+
+  function simular() {
+    const peep = parseFloat(document.getElementById("peep").value);
+    const perfil = document.getElementById("perfil").value;
+
+    const volume = [];
+    const pressaoInsp = [];
+    const pressaoExp = [];
+
+    for (let v = 0; v <= 1; v += 0.05) {
+      volume.push(v.toFixed(2));
+      pressaoInsp.push((peep + 5 * Math.pow(v, 2)).toFixed(2));
+      pressaoExp.push((peep + 5 * v * Math.exp(-3 * v)).toFixed(2));
+    }
+
+    const curvaInsp = {
+      x: volume,
+      y: pressaoInsp,
+      mode: 'lines',
+      name: 'Inspiração',
+      line: { color: 'red', width: 3 }
+    };
+
+    const curvaExp = {
+      x: volume.slice().reverse(),
+      y: pressaoExp.slice().reverse(),
+      mode: 'lines',
+      name: 'Expiração',
+      line: { color: 'blue', width: 3 }
+    };
+
+    const layout = {
+      title: `Curva de Histerese para PEEP ${peep} cmH2O (${perfil})`,
+      xaxis: { title: 'Volume (L)', range: [0, 1] },
+      yaxis: { title: 'Pressão (cmH2O)', range: [peep, peep + 6] },
+      margin: { t: 50, l: 60, r: 30, b: 60 },
+    };
+
+    Plotly.newPlot('grafico', [curvaInsp, curvaExp], layout);
+  }
+
+  function simularPersonalizado() {
+    const texto = document.getElementById("dados").value.trim();
+    const linhas = texto.split("\n");
+
+    const volume = [];
+    const pressao = [];
+
+    for (const linha of linhas) {
+      const partes = linha.split(",");
+      if (partes.length === 2) {
+        const v = parseFloat(partes[0]);
+        const p = parseFloat(partes[1]);
+        if (!isNaN(v) && !isNaN(p)) {
+          volume.push(v);
+          pressao.push(p);
+        }
+      }
+    }
+
+    if (volume.length < 2) {
+      alert("Insira pelo menos dois pares volume,pressão válidos.");
+      return;
+    }
+
+    const curva = {
+      x: volume,
+      y: pressao,
+      mode: 'lines+markers',
+      name: 'Dados Inseridos',
+      line: { color: 'green', width: 3 }
+    };
+
+    const layout = {
+      title: 'Curva de Histerese com Dados Personalizados',
+      xaxis: { title: 'Volume (L)' },
+      yaxis: { title: 'Pressão (cmH2O)' },
+      margin: { t: 50, l: 60, r: 30, b: 60 },
+    };
+
+    Plotly.newPlot('grafico', [curva], layout);
+  }
+
+  // Exporta para HTML poder usar
+  window.simular = simular;
+  window.simularPersonalizado = simularPersonalizado;
 });
