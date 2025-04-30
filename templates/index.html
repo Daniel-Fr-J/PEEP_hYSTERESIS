@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitor de Histerese Pulmonar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="monitor">
+    <h2>Monitor de Histerese Pulmonar</h2>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="ciclos">Ciclos de Histerese:</label>
+        <div id="knob-container">
+          <div id="knob">
+            <div id="indicator"></div>
+            <div id="cycle-display">1</div>
+          </div>
+          <input type="range" id="ciclos" min="0" max="100" value="1" step="1">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="peep">PEEP (cmH2O): <span id="peep-value">8.0</span></label>
+        <input type="range" id="peep" min="4" max="12" step="0.5" value="8">
+      </div>
+
+      <div class="control-group">
+        <label for="perfil">Perfil do Paciente:</label>
+        <select id="perfil">
+          <option value="saudavel">Saudável</option>
+          <option value="fumante">Fumante</option>
+          <option value="asmatico">Asmático</option>
+          <option value="dpoc">DPOC</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>&nbsp;</label>
+        <button onclick="simular()">Simular</button>
+      </div>
+    </div>
+
+    <div id="grafico" style="height: 400px;"></div>
+
+    <h3>Simulação com Dados Personalizados</h3>
+    <div class="control-group" style="margin-top: 10px;">
+      <label for="dados">Cole seus dados (volume,pressão por linha):</label>
+      <textarea id="dados" rows="5" style="width: 100%; font-family: monospace;"></textarea>
+      <button onclick="simularPersonalizado()">Usar Dados Personalizados</button>
+    </div>
+
+    <div class="control-group" style="margin-top: 10px;">
+      <label for="csvInput">Ou envie um arquivo .csv (volume,pressao):</label>
+      <input type="file" id="csvInput" accept=".csv">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
